@@ -58,7 +58,7 @@ export const authService = {
   async getProfile() {
     try {
       const response = await apiClient.get('/auth/me');
-      return response;
+      return response.data;
     } catch (error: any) {
       console.error('Get profile error:', error);
       // For now, return a minimal user object if profile fetch fails
