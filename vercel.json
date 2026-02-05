@@ -1,7 +1,8 @@
 {
   "build": {
-    "env": {
-      "NEXT_PRIVATE_TURBOPACK": "0"
-    }
+    "env": {},
+    "command": "next build",
+    "framework": "nextjs",
+    "disableTurbopack": true
   }
 }
