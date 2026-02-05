@@ -1,4 +1,5 @@
 import apiClient from './client';
+import { AxiosError } from 'axios';
 
 // Task API service for handling task-related API calls
 export const taskApi = {
@@ -29,18 +30,19 @@ export const taskApi = {
       const response = await apiClient.get(url);
       // The backend returns a TaskListResponse object with tasks array inside
       // Extract the tasks array to match what the frontend components expect
-      return response.tasks || response;
+      return response.data.tasks || response.data;
     } catch (error) {
       console.error('Get tasks API error:', error);
       // Log more details about the error
-      if (error.response) {
-        console.error('Response data:', error.response.data);
-        console.error('Response status:', error.response.status);
-        console.error('Response headers:', error.response.headers);
-      } else if (error.request) {
-        console.error('Request data:', error.request);
+      const axiosError = error as AxiosError;
+      if (axiosError.response) {
+        console.error('Response data:', axiosError.response.data);
+        console.error('Response status:', axiosError.response.status);
+        console.error('Response headers:', axiosError.response.headers);
+      } else if (axiosError.request) {
+        console.error('Request data:', axiosError.request);
       } else {
-        console.error('Error message:', error.message);
+        console.error('Error message:', axiosError.message);
       }
       throw error;
     }
@@ -54,7 +56,7 @@ export const taskApi = {
   async getTask(taskId: number | string) {
     try {
       const response = await apiClient.get(`/api/v1/tasks/${taskId}`);
-      return response;
+      return response.data;
     } catch (error) {
       console.error('Get task API error:', error);
       throw error;
@@ -82,7 +84,7 @@ export const taskApi = {
       }
 
       const response = await apiClient.post('/api/v1/tasks', payload);
-      return response;
+      return response.data;
     } catch (error) {
       console.error('Create task API error:', error);
       throw error;
@@ -113,7 +115,7 @@ export const taskApi = {
       }
 
       const response = await apiClient.put(`/api/v1/tasks/${taskId}`, payload);
-      return response;
+      return response.data;
     } catch (error) {
       console.error('Update task API error:', error);
       throw error;
@@ -128,7 +130,7 @@ export const taskApi = {
   async deleteTask(taskId: number | string) {
     try {
       const response = await apiClient.delete(`/api/v1/tasks/${taskId}`);
-      return response;
+      return response.data;
     } catch (error) {
       console.error('Delete task API error:', error);
       throw error;
@@ -146,7 +148,7 @@ export const taskApi = {
       const response = await apiClient.patch(`/api/v1/tasks/${taskId}/complete`, {
         completed: Boolean(completed)
       });
-      return response;
+      return response.data;
     } catch (error) {
       console.error('Toggle task completion API error:', error);
       throw error;
