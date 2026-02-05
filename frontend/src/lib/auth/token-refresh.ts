@@ -5,7 +5,7 @@ import apiClient from '../api/client';
  * JWT token refresh mechanism for maintaining user sessions
  */
 export class TokenRefresh {
-  private static refreshPromise: Promise<string> | null = null;
+  private static refreshPromise: Promise<string | null> | null = null;
 
   /**
    * Refresh the JWT token if it's expired or about to expire
