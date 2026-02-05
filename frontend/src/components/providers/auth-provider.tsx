@@ -59,9 +59,11 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     setLoading(true);
     try {
       const response = await authService.signIn({ email, password });
-      if (response?.access_token) {
+      if (response?.data?.access_token) {
         // Store the token in local storage
-        TokenUtils.setToken(response.access_token);
+        TokenUtils.setToken(response.data.access_token);
+
+        
 
         // Get the user profile after successful sign in
         try {

@@ -1,6 +1,7 @@
 import apiClient from '@/lib/api/client';
 import { TokenUtils } from './token-utils';
 
+
 // Authentication service functions for handling user authentication
 export const authService = {
   /**
